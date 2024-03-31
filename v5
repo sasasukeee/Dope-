@@ -61478,14 +61478,7 @@ function LouxInterval() {
 			vw.oOW.send(JSON.stringify([7, lastcrafted]))
 		}
         if (Settings.CraftSpike) {
-            let wood;
-            stone;
-            gold; 
-            diamond;
-            amet;
-            reidite;
-            redspike = 213;
-            goldspike = 163
+            let wood, stone, gold, diamond, amet, reidite, redspike = 213, goldspike = 163;
             // craft [7, 56]
             // wood wall id = 55
             // craft limit =  SpikesToCraft
