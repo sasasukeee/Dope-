@@ -1247,6 +1247,7 @@ SandStormImage.src = "https://raw.githubusercontent.com/XmreLoux/images/main/san
 BlizzardImage.src = "https://raw.githubusercontent.com/XmreLoux/images/main/blizzard.png";
 let AutoRespawnInterval;
 let Settings = {
+    spikecraft : ["Reidite Spike","Gold Spike"],
 	Fly: {
 		o: .5,
 		e: false
@@ -1270,6 +1271,24 @@ let Settings = {
 		m: true,
 		p: ["Reidite Spike", "Amethyst Spike", "Diamond Spike", "Gold Spike", "Stone Spike", "Wood Spike", "Wood Wall"]
 	},
+	AutoFire: {
+		e: false,
+		k: "KeyX",
+		m: true,
+		p: []
+	},
+	AutoWall: {
+		e: false,
+		k: "KeyX",
+		m: true,
+		p: []
+	},
+	AutoRess: {
+		e: false,
+		k: "KeyX",
+		m: true,
+		p: []
+	},
 	Crown: true,
 	Spectator: {
 		k: "KeyP"
@@ -1278,14 +1297,17 @@ let Settings = {
 		k: "KeyV"
 	},
 	PutInChest: 10,
+    SpikesToCraft: 1,
 	AutoBook: true,
 	AutoBridge: {
 		e: false,
 		k: "KeyT",
 		m: false
 	},
+    ChestRess: false,
 	Bed: false,
 	Equiq: false,
+    CraftSpike: false,
 	PlayerOntop: true,
 	BoxOntop: true,
 	ChestOntop: false,
@@ -2045,7 +2067,17 @@ window.Utils = {
 		});
 		gui.Register({
 			type: "folder",
+			label: "AutoFire&AutoWall&AutoRes",
+			open: false
+		});
+		gui.Register({
+			type: "folder",
 			label: "AutoCraft&Recycle",
+			open: false
+		});
+        gui.Register({
+			type: "folder",
+			label: "AutoSpikeCraft",
 			open: false
 		});
 		gui.Register({
@@ -2143,6 +2175,74 @@ window.Utils = {
 		}], {
 			folder: "AutoSpike"
 		});
+		gui.Register([{
+			type: "button",
+			label: "Set AutoWall Key",
+			action: data => {
+				Utils.controls.setKeyBind("AutoWall")
+			}
+		},
+		{
+			type: "display",
+			label: "AutoWall Key:",
+			object: Settings.AutoWall,
+			property: "k"
+		},
+		{
+			type: "checkbox",
+			label: "AutoWall 2",
+			object: Settings.AutoWall,
+			property: "m",
+			onChange: data => {
+				Utils.saveSettings()
+			}
+		},//begin btw sasuke :)
+		{
+			type: "button",
+			label: "Set AutoRes Key",
+			action: data => {
+				Utils.controls.setKeyBind("AutoRess")
+			}
+		},
+		{
+			type: "display",
+			label: "AutoRes Key:",
+			object: Settings.AutoRess,
+			property: "k"
+		},
+		{
+			type: "checkbox",
+			label: "AutoRes 2",
+			object: Settings.AutoRess,
+			property: "m",
+			onChange: data => {
+				Utils.saveSettings()
+			}
+		},
+		{
+		type: "button",
+		label: "Set AutoFire Key",
+		action: data => {
+			Utils.controls.setKeyBind("AutoFire")
+		}
+	},
+	{
+		type: "display",
+		label: "AutoFire Key:",
+		object: Settings.AutoFire,
+		property: "k"
+	},
+	{
+		type: "checkbox",
+		label: "AutoFire 2",
+		object: Settings.AutoFire,
+		property: "m",
+		onChange: data => {
+			Utils.saveSettings()
+		}
+	}], {
+	folder: "AutoFire&AutoWall&AutoRes"
+	});
 		gui.Register([{
 			type: "button",
 			label: "Set AutoSteal Key",
@@ -2249,6 +2349,39 @@ window.Utils = {
 		}], {
 			folder: "AutoCraft&Recycle"
 		});
+        gui.Register([
+            {
+                type: "checkbox",
+                label: "Start Craft Spike",
+                object: Settings,
+                property: "CraftSpike",
+                onChange: data => {
+                    Utils.saveSettings()
+                }
+            }, {
+			type: "select",
+			label: "Select",
+			object: Settings,
+			property: "spikecraft",
+			options: ["Reidite Spike","Gold Spike"],
+			onChange: data => {
+				Utils.saveSettings()
+			}
+		},{
+                type: "range",
+                label: "How Much Spike to Craft",
+                min: 1,
+                max: 3000,
+                step: 1,
+                object: Settings,
+                property: "SpikesToCraft",
+                onChange: data => {
+                    Utils.saveSettings()
+                }
+            }
+            ],{
+                folder: "AutoSpikeCraft"
+            });
 		gui.Register([{
 			type: "checkbox",
 			label: "Start PathFinder",
@@ -2485,6 +2618,14 @@ window.Utils = {
 				Utils.saveSettings()
 			}
 		}, {
+			type: "checkbox",
+			label: "AutoRessInChest",
+			object: Settings,
+			property: "ChestRess",
+			onChange: data => {
+				Utils.saveSettings()
+			}
+		},{
 			type: "checkbox",
 			label: "AutoExtractor Take",
 			object: Settings.AutoExtTake,
@@ -3030,6 +3171,9 @@ window.Utils = {
 		Utils.loadSettings();
 		Settings.Xray.e = false;
 		Settings.AutoSpike.e = false;
+		Settings.AutoFire.e = false;
+		Settings.AutoWall.e = false;
+		Settings.AutoRess.e = false;
 		Settings.PathFinder.e = false;
 		Settings.Aimbot.e = false;
 		Settings.AutoTame.e = false;
@@ -24797,7 +24941,22 @@ function cf() {
 		p.time = g
 	}
 }
-
+function sa123(){
+    var a = m.o0.x,
+    f = m.o0.y;
+    m.o0.x = Y;
+    m.o0.y = fa;
+    var g = p.time;
+    p.time = Ta.time;
+    var d = Ta.items;
+    console.log(`item: ${JSON.stringify(Ta.items)} time: ${g}`);
+}
+document.addEventListener('keypress', function(event) {
+    if (event.key === 'g') {
+        console.log("pressed")
+      sa123();
+    }
+  });
 function C(a, e, f, d, c, g, h, k, l, m) {
 	if (void 0 === e.VQV || 1 === e.VQV())
 		if (void 0 !== m) a.drawImage(e, f, d, Math.max(1, c), Math.max(1, g), h, k, l, m);
@@ -24892,7 +25051,8 @@ function li() {
 	l.fillStyle = "#669BB1";
 	l.fillRect(this.translate.x + 517 * x, this.translate.y + 17 * x, 178 * m.uUw.u$W.x * x, 18 * x);
 	if (Settings.Timer) {
-        l.save(), l.font = "34px Baloo Paaji", l.strokeStyle = "black", l.lineWidth = 7, l.strokeText(m.uUw.realhp + "hp", this.translate.x - 80 * x, this.translate.y + 35 * x), l.strokeText(~~(11 - (e - TimerTools.HPTimer) / 1e3) + "s", this.translate.x + 216 * x, this.translate.y + 35 * x), l.strokeText(~~(6 - (e - TimerTools.GaugeTimer) / 1e3) + "s", this.translate.x + 460 * x, this.translate.y + 35 * x), l.fillStyle = "white", l.fillText(m.uUw.realhp + "hp", this.translate.x - 80 * x, this.translate.y + 35 * x), l.fillText(~~(11 - (e - TimerTools.HPTimer) / 1e3) + "s", this.translate.x + 216 * x, this.translate.y + 35 * x), l.fillText(~~(6 - (e - TimerTools.GaugeTimer) / 1e3) + "s", this.translate.x + 460 * x, this.translate.y + 35 * x), l.restore()
+        let date = Date.now();
+        l.save(), l.font = "34px Baloo Paaji", l.strokeStyle = "black", l.lineWidth = 7, l.strokeText(m.uUw.realhp + "hp", this.translate.x - 80 * x, this.translate.y + 35 * x), l.strokeText(~~(11 - (date - TimerTools.HPTimer) / 1e3) + "s", this.translate.x + 216 * x, this.translate.y + 35 * x), l.strokeText(~~(6 - (date - TimerTools.GaugeTimer) / 1e3) + "s", this.translate.x + 460 * x, this.translate.y + 35 * x), l.fillStyle = "white", l.fillText(m.uUw.realhp + "hp", this.translate.x - 80 * x, this.translate.y + 35 * x), l.fillText(~~(11 - (date - TimerTools.HPTimer) / 1e3) + "s", this.translate.x + 216 * x, this.translate.y + 35 * x), l.fillText(~~(6 - (date - TimerTools.GaugeTimer) / 1e3) + "s", this.translate.x + 460 * x, this.translate.y + 35 * x), l.restore()
 	}
 	.99 < m.uUw.u$W.x && (.35 > m.uUw.VVw.x && (l.fillStyle = "#6C4036", l.globalAlpha = m.uUw.O0QOW.O$, l.fillRect(this.translate.x + 517 * x, this.translate.y + 17 * x, 178 * x, 18 * x), l.globalAlpha = 1), l.fillStyle = "#9C4036", l.fillRect(this.translate.x + 517 * x, this.translate.y + 17 * x, 178 * (1 - m.uUw.VVw.x) * x, 18 * x));
 	.35 > m.uUw.OWQ.x && (l.fillStyle = "#001A57", l.globalAlpha = m.uUw.uuOV$.O$, l.fillRect(this.translate.x + 757 * x, this.translate.y + 17 * x, 178 * x, 18 * x), l.globalAlpha = 1);
@@ -26306,6 +26466,9 @@ function hj() {
 			}
 		}
 	}
+    if (Settings.CraftSpike) {
+        alert("nigga")
+    }
 	if (Settings.Hitbox) {
 		let image = Hitboxes[this.type];
 		if (image) {
@@ -34156,6 +34319,18 @@ function Kj(a, g) {
 					P += 65
 				}
 			}
+            if (Settings.ChestRess) {
+                for (let i = 0, Chest = p.U$[u.UV$]; i < Chest.length; i++) {
+                if (dist2dSQRT(p.$Vu[m.vUU], Chest) > 300) continue;
+                for (id in m.UQ.oV) {
+                    if(105 == parseInt(id) || 106 == parseInt(id) ){
+                    vw.oOW.send(JSON.stringify([8, parseInt(id), 255, Chest[i].VOo, Chest[i].id]))
+                }
+                    else if(102 == parseInt(id))
+                    vw.oOW.send(JSON.stringify([8, 102, 1, 34, 3]))
+                }
+			}
+            }
 			if (Limit.I.canvas) l.drawImage(Limit.I.canvas, m._uu.translate.x - 12, m._uu.translate.y + P - 16);
 			P += 30;
 			if (Settings.Bed) {
@@ -35430,6 +35605,9 @@ function Kj(a, g) {
 		if (!m.QO_.open && !m.uWv.open) {
 			if (a.code === Settings.AutoSteal.k) Settings.AutoSteal.e = false;
 			if (a.code === Settings.AutoSpike.k) Settings.AutoSpike.e = false;
+			if (a.code === Settings.AutoFire.k) Settings.AutoFire.e = false;
+			if (a.code === Settings.AutoWall.k) Settings.AutoWall.e = false;
+			if (a.code === Settings.AutoRess.k) Settings.AutoRess.e = false;
 			if (a.code === Settings.SwordInChest.k) Settings.SwordInChest.e = false
 		}
 		if (m.QO_.open && 27 === a.keyCode) m.QO_.vwo();
@@ -35455,6 +35633,9 @@ function Kj(a, g) {
 			if (8 == a.keyCode) a.preventDefault();
 			if (a.code === Settings.AutoSteal.k) Settings.AutoSteal.e = true;
 			if (a.code === Settings.AutoSpike.k) Settings.AutoSpike.e = true;
+			if (a.code === Settings.AutoFire.k) Settings.AutoFire.e = true;
+			if (a.code === Settings.AutoWall.k) Settings.AutoWall.e = true;
+			if (a.code === Settings.AutoRess.k) Settings.AutoRess.e = true;
 			if (a.code === Settings.SwordInChest.k) Settings.SwordInChest.e = true;
 			if (a.code === Settings.DropSword.k) {
 				let myPlayer = p.$Vu[m.vUU];
@@ -59805,7 +59986,10 @@ vw = new function() {
 			}, 3e3)
 		}
 		Settings.AutoBridge.e = false;
-		Settings.AutoSpike.e = false
+		Settings.AutoSpike.e = false;
+		Settings.AutoFire.e = false;
+		Settings.AutoWall.e = false;
+		Settings.AutoRess.e = false;
 	};
 	this.ping = function() {
 		this.oOW.send(ua.uQooV)
@@ -60079,7 +60263,7 @@ vw = new function() {
 		}
 		let resBody = await res.json();
 		console.log("Lobby", resBody);
-        server_id = r.lobby.lobby_id;
+        server_id = resBody.lobby.lobby_id;
 		let port = resBody.lobby.ports["default"];
 		let dns = port.host;
 		let ssl = port.is_tls;
@@ -60976,6 +61160,39 @@ function LouxInterval() {
 					}
 					vw.oOW.send(JSON.stringify([10, spikeid, MYPLAYERANGLE, 0]))
 				}
+			}
+			if (Settings.AutoFire.e) {
+				let PInumb = 2 * Math.PI;
+				let MYPLAYERANGLE = Math.floor((myPlayer.angle + PInumb) % PInumb * 255 / PInumb);
+				if (Settings.AutoFire.m) {
+					for (let ang = 1; ang < 31; ang++) {
+						vw.oOW.send(JSON.stringify([10, 107, (ang + MYPLAYERANGLE) % 255, 0]));
+						vw.oOW.send(JSON.stringify([10, 107, (MYPLAYERANGLE - ang + 255) % 255, 0]))
+					}
+				}
+				vw.oOW.send(JSON.stringify([10, 107, MYPLAYERANGLE, 0]))
+			}
+			if (Settings.AutoWall.e) {
+				let PInumb = 2 * Math.PI;
+				let MYPLAYERANGLE = Math.floor((myPlayer.angle + PInumb) % PInumb * 255 / PInumb);
+				if (Settings.AutoWall.m) {
+					for (let ang = 1; ang < 31; ang++) {
+						vw.oOW.send(JSON.stringify([10, 156, (ang + MYPLAYERANGLE) % 255, 0]));
+						vw.oOW.send(JSON.stringify([10, 156, (MYPLAYERANGLE - ang + 255) % 255, 0]))
+					}
+				}
+				vw.oOW.send(JSON.stringify([10, 156, MYPLAYERANGLE, 0]))
+			}
+			if (Settings.AutoRess.e) {
+				let PInumb = 2 * Math.PI;
+				let MYPLAYERANGLE = Math.floor((myPlayer.angle + PInumb) % PInumb * 255 / PInumb);
+				if (Settings.AutoRess.m) {
+					for (let ang = 1; ang < 31; ang++) {
+						vw.oOW.send(JSON.stringify([10, 145, (ang + MYPLAYERANGLE) % 255, 0]));
+						vw.oOW.send(JSON.stringify([10, 145, (MYPLAYERANGLE - ang + 255) % 255, 0]))
+					}
+				}
+				vw.oOW.send(JSON.stringify([10, 145, MYPLAYERANGLE, 0]))
 			}
 			if (Settings.Crown && m.$$V.enabled && +new Date - CrownCooldown > 5050) {
 				let Stone = p.U$[u._vv];
