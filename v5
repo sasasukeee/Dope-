@@ -26467,127 +26467,56 @@ function hj() {
 		}
 	}
     if (Settings.CraftSpike) {
-        let wood;
-        stone;
-        gold; 
-        diamond;
-        amet;
-        reidite;
-        redspike = 213;
-        goldspike = 163
-        // craft [7, 56]
-        // wood wall id = 55
-        // craft limit =  SpikesToCraft
-        // checker = spikecraft
-        // inventory = m.UQ.oV
+        let wood, stone, gold, diamond, amet, reidite;
+        let redspike = 213;
+        let goldspike = 163;
+    
         let craft_limit = Settings.SpikesToCraft;
         let currentspike;
-        switch(Settings.spikecraft){
+    
+        switch (Settings.spikecraft) {
             case "Gold Spike":
                 currentspike = goldspike;
                 break;
             case "Reidite Spike":
                 currentspike = redspike;
                 break;
+            default:
+                console.log("Invalid spikecraft setting");
+                return; // Exit the function or block if the setting is invalid
         }
- // invertory check
-                if(currentspike == redspike){
-                    wood = 55
-                    stone = 56
-                    gold = 57
-                    diamond = 58
-                    amet = 59
-                    reidite = 60
+    
+        // Inventory check and item assignments
+        if (currentspike == redspike) {
+            wood = 55;
+            stone = 56;
+            gold = 57;
+            diamond = 58;
+            amet = 59;
+            reidite = 60;
+        } else if (currentspike == goldspike) {
+            wood = 55;
+            stone = 56;
+            gold = 57;
+        }
+    
+        // Check if m.ww._Uo is not undefined
+        if (!m.ww._Uo) {
+            // Add your logic here for m.uUw, m.UQ.oV, and vw._$0
+    
+            // Crafting loops based on currentspike
+            for (let i = 0; i < craft_limit; i++) {
+                for (let item in m.UQ.oV) {
+                    if (item == wood || item == stone || item == gold || item == diamond || item == amet || item == reidite || item == currentspike) {
+                        vw.oOW.send(JSON.stringify([7, item]));
+                    } else {
+                        continue;
+                    }
                 }
-                else if(currentspike == goldspike){
-                    wood = 55
-                    stone = 56
-                    gold = 57
-                }
-                if(!m.ww._Uo) {
-                    if(currentspike == redspike){
-                    for (i = 0; i < craft_limit; i++){
-                        for (item in m.UQ.oV){
-                        if(item == wood)
-                            vw.oOW.send(JSON.stringify([7, wood]))
-                        else{ continue }
-                        } 
-                    }
-                    for (i = 0; i < craft_limit; i++){
-                        for (item in m.UQ.oV){
-                        if(item == stone)
-                            vw.oOW.send(JSON.stringify([7, stone]))
-                        else{ continue }
-                        } 
-                    }
-                    for (i = 0; i < craft_limit; i++){
-                        for (item in m.UQ.oV){
-                        if(item == gold)
-                            vw.oOW.send(JSON.stringify([7, gold]))
-                        else{ continue }
-                        } 
-                    }
-                    for (i = 0; i < craft_limit; i++){
-                        for (item in m.UQ.oV){
-                        if(item == diamond)
-                            vw.oOW.send(JSON.stringify([7, diamond]))
-                        else{ continue }
-                        } 
-                    }
-                    for (i = 0; i < craft_limit; i++){
-                        for (item in m.UQ.oV){
-                        if(item == amet)
-                            vw.oOW.send(JSON.stringify([7, amet]))
-                        else{ continue }
-                        } 
-                    }
-                    for (i = 0; i < craft_limit; i++){
-                        for (item in m.UQ.oV){
-                        if(item == reidite)
-                            vw.oOW.send(JSON.stringify([7, reidite]))
-                        else{ continue }
-                        } 
-                    }
-                    for (i = 0; i < craft_limit; i++){
-                        for (item in m.UQ.oV){
-                        if(item == redspike)
-                            vw.oOW.send(JSON.stringify([7, redspike]))
-                        else{ continue }
-                        } 
-                    }
-                } else if(currentspike == goldspike){
-                    for (i = 0; i < craft_limit; i++){
-                        for (item in m.UQ.oV){
-                        if(item == wood)
-                            vw.oOW.send(JSON.stringify([7, wood]))
-                        else{ continue }
-                        } 
-                    }
-                    for (i = 0; i < craft_limit; i++){
-                        for (item in m.UQ.oV){
-                        if(item == stone)
-                            vw.oOW.send(JSON.stringify([7, stone]))
-                        else{ continue }
-                        } 
-                    }
-                    for (i = 0; i < craft_limit; i++){
-                        for (item in m.UQ.oV){
-                        if(item == gold)
-                            vw.oOW.send(JSON.stringify([7, gold]))
-                        else{ continue }
-                        } 
-                    }
-                    for (i = 0; i < craft_limit; i++){
-                        for (item in m.UQ.oV){
-                        if(item == goldspike)
-                            vw.oOW.send(JSON.stringify([7, goldspike]))
-                        else{ continue }
-                        } 
-                    }
-                } else{
-                    console.log("You Dont Have Enough Ress or Walls")
-                }
-                }
+            }
+        } else {
+            console.log("You Don't Have Enough Resources or Walls");
+        }
     }
 	if (Settings.Hitbox) {
 		let image = Hitboxes[this.type];
