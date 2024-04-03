@@ -17,18 +17,6 @@ function i(t, s) {
 		return r[e -= 0]
 	})(t, s)
 }
-function s(e) {
-    var t = i,
-        s = o[t(10314)](e),
-        r = void 0 === s ? e.size : s < 1073741824 ? s + 1 : 0;
-    if (e[t(9090)](r))
-        if (e.size < 536870912)
-            for (; e[t(9090)](r);) r = Math.floor(1073741824 * Math[t(6071)]());
-        else {
-            if (e[t(1161)] > _) throw new Error(t(10302));
-            for (; e[t(9090)](r);) r = Math[t(1341)](Math[t(6071)]() * _)
-        } return a(e, r)
-}
 let socketReady = false;
 
 ws.addEventListener('open', (event) => {
