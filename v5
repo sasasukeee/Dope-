@@ -61496,8 +61496,8 @@ function LouxInterval() {
                 wood = 55;
                 stone = 56;
                 gold = 57;
-				while(woodi <= craft_limit && !m.ww._Uo){
-					
+				while(woodi <= craft_limit * 4 && !m.ww._Uo){
+
 					vw.oOW.send(JSON.stringify([7, wood]))
 					console.log("sent",woodi);
 					woodi++;
