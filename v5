@@ -61507,6 +61507,7 @@ function LouxInterval() {
 					setTimeout(sendCraftMessage, delayBetweenSends); // Recursive call with delay
 				}				
 			}
+			sendCraftMessage();
 		}
 
         }
